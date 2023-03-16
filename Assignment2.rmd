@@ -1,0 +1,59 @@
+---
+title: "TGCA_assignment2"
+author: "Paula Rodrigo"
+date: "2023-03-16"
+output: html_document
+---
+
+
+```{r}
+data <-readRDS("C:/Users/paula/Downloads/miniTCGA.3349x4006.rds")
+
+
+library(dplyr)
+library(ggplot2)
+library(Rtsne)
+
+data_train    <- data %>% filter(!is.na(response))
+data_predict  <- data %>% filter(is.na(response))
+
+set.seed(0)
+trainfold <- data_train %>% sample_frac(size=0.80)
+testfold  <- setdiff(data_train, trainfold)
+
+train_knn <- trainfold[,c(4:6)]
+test_knn <- testfold[,c(4:6)]
+library(class)
+list_acc <- c()
+for(i in c(2:20)){
+  knn <- knn(train_knn, test_knn, k = i, cl = trainfold$tissue)
+  observed  <- as.factor(testfold$tissue)
+  mse       <- (observed==knn) 
+  acc <- (sum(mse, na.rm = TRUE)/length(mse))*100 
+  list_acc <- c(list_acc,acc)
+}
+
+df <- data.frame(list_acc)
+df$ind <- c(2:20)
+ggplot(df, aes(x=ind,y=list_acc)) + geom_line()
+
+knn <- knn(train_knn, test_knn, k = 7, cl = trainfold$tissue)
+summary(knn)
+
+
+observed  <- as.factor(testfold$tissue)
+mse       <- (observed==knn) 
+acc <- (sum(mse, na.rm = TRUE)/length(mse))*100
+(rmse     <- sqrt(mse))
+
+
+head(data)
+expr_matrix <- data[,-c(1:6)]
+rtsne <- Rtsne(as.matrix(expr_matrix))
+rtsne <- Rtsne(as.matrix(sub1_random_1000$X), perplexity = 40)
+data %>% 
+  ggplot()
+
+  
+```
+
