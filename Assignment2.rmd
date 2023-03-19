@@ -1,0 +1,143 @@
+---
+title: "TGCA_assignment2"
+author: "Paula, Genona, Beatrice"
+date: "2023-03-16"
+output: html_document
+---
+
+!! COSAS QUE HACER
+Hacer manova para calcular los genes que más efecto tienen sobre both el tissue type y la response. Una vez tengamos los genes esos, usaremos glm.
+
+Read the data, transform tumour and control to 1 and 0, respectively. Divide the dataset into data train and test data, and then the train data into 2 again, to be able to work with it for the purpose of this assignment.
+
+```{r}
+library(tidyverse)
+library(dplyr)
+library(ggplot2)
+library(Rtsne)
+
+tcgadf <-readRDS("C:/Users/paula/Downloads/miniTCGA.3349x4006.rds")
+
+## put response and tissue into dbl (tumor = 1);(breast = 1, lung = 2, kidney = 3)
+tcgadf <- tcgadf %>%
+  mutate(sampletype=response, 
+         response=ifelse(test= response=="Tumor", yes = 1, no = 0 ),
+         tissue=ifelse(test=tissue=="Breast", yes = 1, ifelse(test=tissue== "Lung", yes = 2, no = 3)))
+
+tcgadf %>%
+  group_by(tissue) %>%
+  summarise(observations=n()) %>%
+  knitr::kable()
+
+data_train    <- tcgadf %>% filter(!is.na(response))
+data_predict  <- tcgadf %>% filter(is.na(response))
+
+set.seed(0)
+trainfold <- data_train %>% sample_frac(size=0.80)
+testfold  <- setdiff(data_train, trainfold)
+
+```
+
+Plot the pcas and see how they cluster depending on which pca we use (pc3 explains the most var for tissue but it doesn't explain response very much):
+
+```{r}
+tcgadf %>% ggplot(aes(x=pc1, y= pc3, color = tissue))+
+  geom_point()
+```
+
+Make a comparison of means by groups with anova. As we want to look at the genes that are most differentially expressed not only by response (tumour, control), but also by tissue (Kidney, Breast, Lung), we will use a Multiple anova test (MANOVA). 
+
+```{r}
+data_manova <- data_train[,c(2,3,7:4007)] 
+#data_manova$tissue <- as.factor(data_manova$tissue)
+
+df_longer <- pivot_longer(data = data_manova,
+                          cols =3:4002,names_to = "Genes")
+
+#grep("sampletype", colnames(data_manova))
+
+res.man <- manova(cbind(tissue, value) ~ response, data = df_longer)
+summary(res.man)
+
+library(MASS)
+
+df_lda <- lda(cbind(tissue, value) ~ response, data = df_longer)
+df_lda
+```
+
+Try to get the genes with more variance between tumour/normal
+
+```{r}
+## to take only the response variable and the genes
+data_train_paula <- data_train[,c(2,7:4006)] 
+data_train_paula <- data_train_paula %>%
+  group_by(response) %>%
+  summarise(topgenes =head(order(colVars(as.matrix(only_genes)),decreasing=TRUE),3))
+```
+
+
+```{r}
+library(matrixStats)
+only_genes <- data_train[,7:4006]
+topVarGenes <- head(order(colVars(as.matrix(only_genes)),decreasing=TRUE),70)
+#list of the 70 most variable genes across the whole dataset
+# [1] 3470 3588 3625 1658  669  534 1443 3138 1196 1639 3171 3272 2224 2881 1761
+# [16] 2600  515 2279 2416 3156 1323 2527  177 1657  354  746 2916  342 2364 1139
+# [31] 3342 1231 1015 2442 2153  883 2353 1747 3734 3593 2382 3645  930 3268 3475
+# [46] 2160  279 2380 3630  130 1560  351 3893 2355  857 1571 2647 2870 1752  386
+# [61] 2526  178 1164 3522  126 2549 2890 1216  664 2291
+
+#map them to the actual names of the genes:
+topVar_gene_names <- colnames(only_genes[,(as.vector(topVarGenes))])
+
+```
+The problem is that they probably only account for differences in tissue
+
+General linear model for those genes and response:
+
+```{r}
+glm_res <- glm(response ~ (~insert gene names here~), family = gaussian, data =data_train_paula)
+summary(glm_res)
+```
+
+
+KNN for the data without filtering for genes --> accuracy of 95.86
+I think thats the best approach, after having filtered the most variant genes across tumour and normal (but i havent gotten it to work)
+```{r}
+train_knn <- trainfold[,c(4:6)]
+test_knn <- testfold[,c(4:6)]
+library(class)
+list_acc <- c()
+for(i in c(2:20)){
+  knn <- knn(train_knn, test_knn, k = i, cl = trainfold$response)
+  observed  <- as.factor(testfold$response)
+  mse       <- (observed==knn) 
+  acc <- (sum(mse, na.rm = TRUE)/length(mse))*100 
+  list_acc <- c(list_acc,acc)
+}
+
+df <- data.frame(list_acc)
+df$ind <- c(2:20)
+ggplot(df, aes(x=ind,y=list_acc)) + geom_line()
+
+knn <- knn(train_knn, test_knn, k = 11, cl = trainfold$response)
+summary(knn)
+
+
+observed  <- as.factor(testfold$response)
+mse       <- (observed==knn) 
+acc <- (sum(mse, na.rm = TRUE)/length(mse))*100
+(rmse     <- sqrt(mse))
+
+```
+
+try to cluster it according to tsne instead of pca --> cant make it work, it blows up
+```{r}
+head(tcgadf)
+expr_matrix <- tcgadf[,c(7:4006)]
+rtsne <- Rtsne(as.matrix(expr_matrix))
+#rtsne <- Rtsne(as.matrix(sub1_random_1000$X), perplexity = 40)
+rtsne %>% 
+  ggplot(aes(x=rtsne$Y["V1"], y=rtsne$Y["V2"]))
+```
+
