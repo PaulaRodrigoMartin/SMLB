@@ -1,7 +1,7 @@
 ```mermaid
 graph TD;
     seqlist[seqs/hs.utr3.seqlist.rds]
-    seqs[seqs/hs.utr3.seq.rds]
+    %%seqs[seqs/hs.utr3.seq.rds]
     mireact_input[data/xxxxxxx]
     miReact_output[data/mirnaActivity_th_downsampled.rds]
     7mers[patterns/patterns7.csv]
@@ -21,7 +21,7 @@ graph TD;
     style miReact_output fill:#7cb5ec,stroke:#333,stroke-width:2px;
     style 7mers fill:#7cb5ec,stroke:#333,stroke-width:2px;
     style mireact_input fill:#7cb5ec,stroke:#333,stroke-width:2px;
-    style seqs fill:#7cb5ec,stroke:#333,stroke-width:2px;
+    %%style seqs fill:#7cb5ec,stroke:#333,stroke-width:2px;
     style annotation fill:#7cb5ec,stroke:#333,stroke-width:2px;
     style longmers fill:#7cb5ec,stroke:#333,stroke-width:2px;
     style finallongmers fill:#FFA07A,stroke:#333,stroke-width:2px;
@@ -39,8 +39,8 @@ graph TD;
     longmers-->check_notebook
     check_notebook-->plots
     check_notebook-->finallongmers
-    finallongmers-->GSEA
-    seqs-->GSEA
+    %%finallongmers-->GSEA
+    %%seqs-->GSEA
     miReact_output-->main_notebook
 
 ```
