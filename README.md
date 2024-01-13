@@ -1,37 +1,41 @@
 ```mermaid
 graph TD;
-    genes[data/genes.txt]
-    log1[log/execution.log]
-    achilles[data/achilles_generated.csv]
-    mapa[data/map_generated.csv]
-    log2[log/completed_genes.txt]
-    corrsFiles[correlations/correlations_GENE*.csv]
-    corrPy[correlations.py]
-    corrSh[correlations_batch.sh]
-    function[functions.py]
-    net[generate_network.py]
-    app[app.py]
+    seqlist[seqs/hs.utr3.seqlist.rds]
+    seqs[seqs/hs.utr3.seq.rds]
+    mireact_input[data/xxxxxxx]
+    miReact_output[log/data/mirnaActivity_th_downsampled.rds]
+    7mers[patterns/patterns7.csv]
+    annotation[data/annotation.csv]
+    miReact[code/mireact.sh]
+    rank[code/xxxxxxx]
+    functions[code/functions.R]
+    main_notebook[code/main.Rmd]
+    GSEA[code/GSEA.Rmd]
+    logos[results/logos.pdf]
+    corrm[results/correlations.pdf]
+    distrib[results/hit_distrib.pdf]
+    
 
-    style genes fill:#7cb5ec,stroke:#333,stroke-width:2px;
-    style log1 fill:#7cb5ec,stroke:#333,stroke-width:2px;
-    style achilles fill:#7cb5ec,stroke:#333,stroke-width:2px;
-    style mapa fill:#7cb5ec,stroke:#333,stroke-width:2px;
-    style log2 fill:#7cb5ec,stroke:#333,stroke-width:2px;
-    style corrsFiles fill:#7cb5ec,stroke:#333,stroke-width:2px;
+    style seqlist fill:#7cb5ec,stroke:#333,stroke-width:2px;
+    style miReact_output fill:#7cb5ec,stroke:#333,stroke-width:2px;
+    style 7mers fill:#7cb5ec,stroke:#333,stroke-width:2px;
+    style mireact_input fill:#7cb5ec,stroke:#333,stroke-width:2px;
+    style seqs fill:#7cb5ec,stroke:#333,stroke-width:2px;
+    style annotation fill:#7cb5ec,stroke:#333,stroke-width:2px;
+    style logos fill:#7cb5ec,stroke:#333,stroke-width:2px;
+    style corrm fill:#7cb5ec,stroke:#333,stroke-width:2px;
+    style distrib fill:#7cb5ec,stroke:#333,stroke-width:2px;
 
-    genes-->corrSh
-    log1-->corrSh
-    log2-->corrSh
-    achilles-->corrPy
-    mapa-->function
-    corrSh-->corrPy
-    corrPy-->corrsFiles
-    corrsFiles-->app
-    genes-->app
-    corrsFiles-->function
-    function-->app
-    genes-->net
-    net-- network/gene_correlation.pickle -->app
-    corrsFiles-->net
+    seqlist-->miReact
+    7mers-->miReact
+    mireact_input-->miReact
+    annotation-->miReact
+    miReact-->miReact_output
+    miReact_output-->main_notebook
+    functions-->main_notebook
+    main_notebook-->GSEA
+    main_notebook-->logos
+    main_notebook-->corrm
+    main_notebook-->distrib
 
 ```
