@@ -14,6 +14,7 @@ graph TD;
     logos[results/logos.pdf]
     corrm[results/correlations.pdf]
     distrib[results/hit_distrib.pdf]
+    ranked_seqs[data/ranked_kmers.rds]
     
 
     style seqlist fill:#7cb5ec,stroke:#333,stroke-width:2px;
@@ -31,11 +32,14 @@ graph TD;
     mireact_input-->miReact
     annotation-->miReact
     miReact-->miReact_output
-    miReact_output-->main_notebook
     functions-->main_notebook
     main_notebook-->GSEA
     main_notebook-->logos
     main_notebook-->corrm
     main_notebook-->distrib
+    seqs-->GSEA
+    rank--> ranked_seqs
+    miReact_output-->rank
+    rank-->main_notebook
 
 ```
