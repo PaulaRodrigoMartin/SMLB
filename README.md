@@ -9,6 +9,7 @@ graph TD;
     miReact[code/mireact.sh]
     functions[code/functions.R]
     main_notebook[code/main.Rmd]
+    check_notebook[code/check.Rmd]
     GSEA[code/GSEA.Rmd]
     logos[results/logos.pdf]
     corrm[results/correlations.pdf]
@@ -23,11 +24,12 @@ graph TD;
     style mireact_input fill:#7cb5ec,stroke:#333,stroke-width:2px;
     style seqs fill:#7cb5ec,stroke:#333,stroke-width:2px;
     style annotation fill:#7cb5ec,stroke:#333,stroke-width:2px;
-    style logos fill:#7cb5ec,stroke:#333,stroke-width:2px;
-    style corrm fill:#7cb5ec,stroke:#333,stroke-width:2px;
-    style distrib fill:#7cb5ec,stroke:#333,stroke-width:2px;
+    style logos fill:##FFD700,stroke:#333,stroke-width:2px;
+    style corrm fill:#32CD32,stroke:#333,stroke-width:2px;
+    style distrib fill:#FFA07A,stroke:#333,stroke-width:2px;
     style ranked_seqs fill:#7cb5ec,stroke:#333,stroke-width:2px;
     style snakeplot fill:#7cb5ec,stroke:#333,stroke-width:2px;
+    style longmers fill:#7cb5ec,stroke:#333,stroke-width:2px;
 
     seqlist-->miReact
     7mers-->miReact
@@ -36,15 +38,10 @@ graph TD;
     miReact-->miReact_output
     functions-->main_notebook
     main_notebook-->longmers
-    longmers-->logos
-    longmers-->corrm
-    longmers-->distrib
-    main_notebook-->logos
-    main_notebook-->corrm
-    corrm-->logos
-    logos-->distrib
-    main_notebook-->distrib
-    main_notebook-->GSEA
+    longmers-->check_notebook
+    check_notebook-->logos
+    check_notebook-->corrm
+    check_notebook-->distrib
     seqs-->GSEA
     main_notebook--> snakeplot
     miReact_output-->main_notebook
