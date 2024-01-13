@@ -40,6 +40,7 @@ graph TD;
     seqs-->GSEA
     rank--> ranked_seqs
     miReact_output-->rank
-    rank-->main_notebook
+    rank-->ranked_seqs
+    ranked_seqs-->main_notebook
 
 ```
