@@ -12,10 +12,7 @@ graph TD;
     main_notebook[code/main.Rmd]
     check_notebook[code/check.Rmd]
     GSEA[code/GSEA.Rmd]
-    logos[results/logos.pdf]
-    corrm[results/correlations.pdf]
-    distrib[results/hit_distrib.pdf]
-    snakeplot[results/snakeplot.pdf]
+    plots[results/plots/]
     longmers[results/longmers.rds]
     finallongmers[results/final_longmers.rds]
     
@@ -29,7 +26,6 @@ graph TD;
     style logos fill:#7cb5ec,stroke:#333,stroke-width:2px;
     style corrm fill:#7cb5ec,stroke:#333,stroke-width:2px;
     style distrib fill:#7cb5ec,stroke:#333,stroke-width:2px;
-    style snakeplot fill:#7cb5ec,stroke:#333,stroke-width:2px;
     style longmers fill:#7cb5ec,stroke:#333,stroke-width:2px;
     style finallongmers fill:#FFA07A,stroke:#333,stroke-width:2px;
 
@@ -43,13 +39,10 @@ graph TD;
     functionsc-->check_notebook
     main_notebook-->longmers
     longmers-->check_notebook
-    check_notebook-->logos
-    check_notebook-->corrm
-    check_notebook-->distrib
+    check_notebook-->plots
     check_notebook-->finallongmers
     finallongmers-->GSEA
     seqs-->GSEA
-    main_notebook--> snakeplot
     miReact_output-->main_notebook
 
 ```
