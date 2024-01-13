@@ -3,18 +3,16 @@ graph TD;
     seqlist[seqs/hs.utr3.seqlist.rds]
     seqs[seqs/hs.utr3.seq.rds]
     mireact_input[data/xxxxxxx]
-    miReact_output[log/data/mirnaActivity_th_downsampled.rds]
+    miReact_output[data/mirnaActivity_th_downsampled.rds]
     7mers[patterns/patterns7.csv]
     annotation[data/annotation.csv]
     miReact[code/mireact.sh]
-    rank[code/xxxxxxx]
     functions[code/functions.R]
     main_notebook[code/main.Rmd]
     GSEA[code/GSEA.Rmd]
     logos[results/logos.pdf]
     corrm[results/correlations.pdf]
     distrib[results/hit_distrib.pdf]
-    ranked_seqs[data/ranked_kmers.rds]
     snakeplot[results/snakeplot.pdf]
     
 
@@ -42,8 +40,6 @@ graph TD;
     main_notebook-->distrib
     seqs-->GSEA
     ranked_seqs--> snakeplot
-    miReact_output-->rank
-    rank-->ranked_seqs
-    ranked_seqs-->main_notebook
+    miReact_output-->main_notebook
 
 ```
