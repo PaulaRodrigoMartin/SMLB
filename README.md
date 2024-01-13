@@ -47,7 +47,7 @@ graph TD;
     check_notebook-->corrm
     check_notebook-->distrib
     check_notebook-->finallongmers
-    check_notebook-->GSEA
+    finallongmers-->GSEA
     seqs-->GSEA
     main_notebook--> snakeplot
     miReact_output-->main_notebook
