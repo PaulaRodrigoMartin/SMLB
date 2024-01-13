@@ -11,7 +11,7 @@ graph TD;
     functionsc[code/functions_check.R]
     main_notebook[code/main.Rmd]
     check_notebook[code/check.Rmd]
-    GSEA[code/GSEA.Rmd]
+    %%GSEA[code/GSEA.Rmd]
     plots[results/plots]
     longmers[results/longmers.rds]
     finallongmers[results/final_longmers.rds]
