@@ -39,7 +39,7 @@ graph TD;
     main_notebook-->corrm
     main_notebook-->distrib
     seqs-->GSEA
-    ranked_seqs--> snakeplot
+    main_notebook--> snakeplot
     miReact_output-->main_notebook
 
 ```
