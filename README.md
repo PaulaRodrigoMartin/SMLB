@@ -23,9 +23,6 @@ graph TD;
     style mireact_input fill:#7cb5ec,stroke:#333,stroke-width:2px;
     style seqs fill:#7cb5ec,stroke:#333,stroke-width:2px;
     style annotation fill:#7cb5ec,stroke:#333,stroke-width:2px;
-    style logos fill:#7cb5ec,stroke:#333,stroke-width:2px;
-    style corrm fill:#7cb5ec,stroke:#333,stroke-width:2px;
-    style distrib fill:#7cb5ec,stroke:#333,stroke-width:2px;
     style longmers fill:#7cb5ec,stroke:#333,stroke-width:2px;
     style finallongmers fill:#FFA07A,stroke:#333,stroke-width:2px;
 
