@@ -15,6 +15,7 @@ graph TD;
     corrm[results/correlations.pdf]
     distrib[results/hit_distrib.pdf]
     ranked_seqs[data/ranked_kmers.rds]
+    snakeplot[results/snakeplot.pdf]
     
 
     style seqlist fill:#7cb5ec,stroke:#333,stroke-width:2px;
@@ -27,6 +28,7 @@ graph TD;
     style corrm fill:#7cb5ec,stroke:#333,stroke-width:2px;
     style distrib fill:#7cb5ec,stroke:#333,stroke-width:2px;
     style ranked_seqs fill:#7cb5ec,stroke:#333,stroke-width:2px;
+    style snakeplot fill:#7cb5ec,stroke:#333,stroke-width:2px;
 
     seqlist-->miReact
     7mers-->miReact
@@ -39,7 +41,7 @@ graph TD;
     main_notebook-->corrm
     main_notebook-->distrib
     seqs-->GSEA
-    rank--> ranked_seqs
+    ranked_seqs--> snakeplot
     miReact_output-->rank
     rank-->ranked_seqs
     ranked_seqs-->main_notebook
