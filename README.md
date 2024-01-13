@@ -7,7 +7,8 @@ graph TD;
     7mers[patterns/patterns7.csv]
     annotation[data/annotation.csv]
     miReact[code/mireact.sh]
-    functions[code/functions.R]
+    functions[code/functions_build.R]
+    functionsc[code/functions_check.R]
     main_notebook[code/main.Rmd]
     check_notebook[code/check.Rmd]
     GSEA[code/GSEA.Rmd]
@@ -39,7 +40,7 @@ graph TD;
     annotation-->miReact
     miReact-->miReact_output
     functions-->main_notebook
-    functions-->check_notebook
+    functionsc-->check_notebook
     main_notebook-->longmers
     longmers-->check_notebook
     check_notebook-->logos
