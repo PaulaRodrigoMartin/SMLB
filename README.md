@@ -14,6 +14,7 @@ graph TD;
     corrm[results/correlations.pdf]
     distrib[results/hit_distrib.pdf]
     snakeplot[results/snakeplot.pdf]
+    longmers[results/longmers.rds]
     
 
     style seqlist fill:#7cb5ec,stroke:#333,stroke-width:2px;
@@ -34,10 +35,16 @@ graph TD;
     annotation-->miReact
     miReact-->miReact_output
     functions-->main_notebook
-    main_notebook-->GSEA
+    main_notebook-->longmers
+    longmers-->logos
+    longmers-->corrm
+    longmers-->distrib
     main_notebook-->logos
     main_notebook-->corrm
+    corrm-->logos
+    logos-->distrib
     main_notebook-->distrib
+    main_notebook-->GSEA
     seqs-->GSEA
     main_notebook--> snakeplot
     miReact_output-->main_notebook
